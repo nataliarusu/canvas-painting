@@ -1,3 +1,4 @@
+
 ### canvas width and height
 
 default canvas size 300 x 150
@@ -30,4 +31,5 @@ in js
    - y=>	y upper-left corner of the rectangle	(from top to bottom) //20
    - width => width of the rectangle, in pixels //140	
    - height	The height of the rectangle, in pixels //160
+
 
