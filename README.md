@@ -1,3 +1,5 @@
+<details>
+<summary>Learning about canvas</summary>
 
 ### canvas width and height
 
@@ -31,5 +33,6 @@ in js
    - y=>	y upper-left corner of the rectangle	(from top to bottom) //20
    - width => width of the rectangle, in pixels //140	
    - height	The height of the rectangle, in pixels //160
+   </details>
 
-
+https://nataliarusu.github.io/canvas-painting/
