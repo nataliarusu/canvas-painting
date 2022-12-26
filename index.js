@@ -15,6 +15,7 @@ const userSettings = {
   lastX: 0,
   lastY: 0,
   multicolour: false,
+  // eslint-disable-next-line no-undef
   currentH: hexToHSL(colourInput.value),
   hue: 0,
 };
@@ -26,6 +27,7 @@ const downloadHanler = () => {
 
 const changeColorHanler = (e) => {
   canvasCTX.strokeStyle = e.target.value;
+  // eslint-disable-next-line no-undef
   userSettings.currentH = hexToHSL(e.target.value);
   userSettings.hue = userSettings.currentH[0];
 };
@@ -76,9 +78,10 @@ const drawHandler = (e) => {
 const setDefaultSettings = () => {
   colourInput.value = DEFAULT_LINE_COLOUR;
   lineWidthInput.value = 100;
-  checkboxInput.checked=true;
-  userSettings.multicolour=checkboxInput.checked;
-  userSettings.currentH=hexToHSL(colourInput.value);
+  checkboxInput.checked = true;
+  userSettings.multicolour = checkboxInput.checked;
+  // eslint-disable-next-line no-undef
+  userSettings.currentH = hexToHSL(colourInput.value);
   userSettings.hue = userSettings.currentH[0];
   canvasCTX.strokeStyle = colourInput.value;
   canvasCTX.lineWidth = Number(lineWidthInput.value);
@@ -100,7 +103,7 @@ canvas.addEventListener('mousedown', (e) => {
   userSettings.lastX = e.offsetX;
   userSettings.lastY = e.offsetY;
 });
-canvas.addEventListener('mousemove', drawHandler); //MouseEvent {isTrusted: true, screenX: 613, screenY: 804, clientX: 613, clientY: 701, …}
+canvas.addEventListener('mousemove', drawHandler); //MouseEvent{isTrusted: true, screenX: 613, screenY: 804, clientX: 613, clientY: 701,…}
 
 canvas.addEventListener('mouseup', () => {
   userSettings.isDrawing = false;
@@ -110,3 +113,4 @@ canvas.addEventListener('mouseleave', () => {
   userSettings.isDrawing = false;
   userSettings.hue = userSettings.currentH[0];
 });
+
