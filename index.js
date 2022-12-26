@@ -4,25 +4,18 @@ const lineShapeInput = document.querySelector('#line-shape');
 const checkboxInput = document.querySelector('#checkbox');
 const canvas = document.querySelector('#draw');
 const downloadEl = document.querySelector('.download');
-const DEFAULT_LINE_COLOUR = '#d73c3c';
+const DEFAULT_LINE_COLOUR = '#366edd';
 
 canvas.width = window.innerWidth - 10;
 canvas.height = window.innerHeight - 88;
 const canvasCTX = canvas.getContext('2d');
-
-const defaultCanvasSettings = () => {
-  canvasCTX.strokeStyle = DEFAULT_LINE_COLOUR;
-  canvasCTX.lineWidth = Number(lineWidthInput.value);
-  canvasCTX.lineJoin = 'round';
-  canvasCTX.lineCap = 'round';
-};
 
 const userSettings = {
   isDrawing: false,
   lastX: 0,
   lastY: 0,
   multicolour: false,
-  currentH: hexToHSL(DEFAULT_LINE_COLOUR),
+  currentH: hexToHSL(colourInput.value),
   hue: 0,
 };
 
@@ -34,11 +27,13 @@ const downloadHanler = () => {
 const changeColorHanler = (e) => {
   canvasCTX.strokeStyle = e.target.value;
   userSettings.currentH = hexToHSL(e.target.value);
-  userSettings.hue= userSettings.currentH;
+  userSettings.hue = userSettings.currentH[0];
 };
+
 const changeLineWidthHanler = (e) => {
   canvasCTX.lineWidth = Number(e.target.value);
 };
+
 const lineShapeHandler = (e) => {
   switch (e.target.value) {
     case 'round':
@@ -60,10 +55,10 @@ const lineShapeHandler = (e) => {
 };
 const drawHandler = (e) => {
   if (!userSettings.isDrawing) return;
-  if(userSettings.multicolour){    
-    canvasCTX.strokeStyle=`hsl(${userSettings.hue} 100% 50%)`;//colourful
-  } else{
-    canvasCTX.strokeStyle=colourInput.value;
+  if (userSettings.multicolour) {
+    canvasCTX.strokeStyle = `hsl(${userSettings.hue} ${userSettings.currentH[1]}% ${userSettings.currentH[2]}%)`; //colourful
+  } else {
+    canvasCTX.strokeStyle = colourInput.value;
   }
   //we will see the effect only when we call ctx.stroke()
   canvasCTX.beginPath();
@@ -73,19 +68,33 @@ const drawHandler = (e) => {
   userSettings.lastX = e.offsetX;
   userSettings.lastY = e.offsetY;
   userSettings.hue++;
-    if(userSettings.hue>=360){
-        userSettings.hue=0;
-    }
+  if (userSettings.hue >= 360) {
+    userSettings.hue = 0;
+  }
 };
-defaultCanvasSettings();
+
+const setDefaultSettings = () => {
+  colourInput.value = DEFAULT_LINE_COLOUR;
+  lineWidthInput.value = 100;
+  checkboxInput.checked=true;
+  userSettings.multicolour=checkboxInput.checked;
+  userSettings.currentH=hexToHSL(colourInput.value);
+  userSettings.hue = userSettings.currentH[0];
+  canvasCTX.strokeStyle = colourInput.value;
+  canvasCTX.lineWidth = Number(lineWidthInput.value);
+  canvasCTX.lineJoin = 'round';
+  canvasCTX.lineCap = 'round';
+};
+
+setDefaultSettings();
 
 colourInput.addEventListener('input', changeColorHanler);
 lineWidthInput.addEventListener('input', changeLineWidthHanler);
 lineShapeInput.addEventListener('change', lineShapeHandler);
 downloadEl.addEventListener('click', downloadHanler);
-checkboxInput.addEventListener('change', ()=>{
-    userSettings.multicolour = checkboxInput.checked;
-})
+checkboxInput.addEventListener('change', () => {
+  userSettings.multicolour = checkboxInput.checked;
+});
 canvas.addEventListener('mousedown', (e) => {
   userSettings.isDrawing = true;
   userSettings.lastX = e.offsetX;
@@ -94,10 +103,10 @@ canvas.addEventListener('mousedown', (e) => {
 canvas.addEventListener('mousemove', drawHandler); //MouseEvent {isTrusted: true, screenX: 613, screenY: 804, clientX: 613, clientY: 701, …}
 
 canvas.addEventListener('mouseup', () => {
-    userSettings.isDrawing = false;    
-    userSettings.hue = userSettings.currentH;
+  userSettings.isDrawing = false;
+  userSettings.hue = userSettings.currentH[0];
 });
 canvas.addEventListener('mouseleave', () => {
-    userSettings.isDrawing = false;    
-    userSettings.hue = userSettings.currentH;
+  userSettings.isDrawing = false;
+  userSettings.hue = userSettings.currentH[0];
 });
