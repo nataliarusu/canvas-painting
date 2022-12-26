@@ -1,38 +1,44 @@
-<details>
-<summary>Learning about canvas</summary>
+# Canvas painting
 
-### canvas width and height
+This painting project was built using the HTML5 Canvas API.
+Canvas painting allows a user to draw coloured lines on a canvas, customize line width, customize line shapes and download the drawn lines as png images.
 
-default canvas size 300 x 150
+See in action https://nataliarusu.github.io/canvas-painting/
+<hr>
 
-in html
+## How to use
 
-    <canvas id="one" width="200" height="300"></canvas>
+1. Click and hold the left mouse button to draw a line.
+You can start to draw straight away as default line settings apply as follows:
+   - Line colour = '#366edd'
+   - Line width = 100
+   - Line shape = round
+   - Multicolour line = yes
 
-in js
 
-    const canvasOne = document.querySelector('#one');
-    canvasOne.width = 400; //note, without px, not a string value
-    canvasOne.height = 400;
-
-
-### canvas context and basics
-1. const canvasOne = document.querySelector('#one'); we have referense to HTML element
-2. HTMLCanvasElement.getContext() method gets that element's context—the thing onto which the drawing will be rendered. In this case we will draw on 2d (CanvasRenderingContext2D). The HTMLCanvasElement.getContext() method returns a drawing context object on the canvas, or null if the context identifier is not supported.
-    
-        const canvasOneCTX = canvasOne.getContext('2d');
-
-3. The actual drawing is done using the CanvasRenderingContext2D interface
-
+2. You can customize a line by changing
+   - Line colour can be changed by clicking the colour box
+   - Line width possible values are: number other than 0 and negative
+   - Line shape possible values are: round, bevel, miter
+   - Multicolour line, if checked, the line will be drawn in multicolour starting from the selected colour using the entire 360 HSL wheel for the selected colour.
   
-        canvasOneCTX.fillStyle = "rgb(255,227, 196)";
-        canvasOneCTX.fillRect(30, 20, 140, 160);//140px*160px
+3. Click the upper right download image to download 
+   
+<hr>
+
+## How to run
+Download and install NodeJS from https://nodejs.org/en/.
+The Node.js installer includes the NPM package manager.
+
+From your terminal run
+
+    git clone https://github.com/nataliarusu/canvas-painting.git
+
+Go to the root of the project and run
+
+npm install
+
+npm will install all project dependencies. These dependencies are defined in package.json. A new node_modules folder will be created and all dependencies needed for this project will be installed.
 
 
-   - x =>x upper-left corner of the rectangle	(from left to right) //30
-   - y=>	y upper-left corner of the rectangle	(from top to bottom) //20
-   - width => width of the rectangle, in pixels //140	
-   - height	The height of the rectangle, in pixels //160
-   </details>
 
-https://nataliarusu.github.io/canvas-painting/
