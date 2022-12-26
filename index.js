@@ -6,8 +6,8 @@ const canvas = document.querySelector('#draw');
 const downloadEl = document.querySelector('.download');
 const DEFAULT_LINE_COLOUR = '#366edd';
 
-canvas.width = window.innerWidth - 10;
-canvas.height = window.innerHeight - 88;
+canvas.width = window.innerWidth - 20;
+canvas.height = window.innerHeight - 110;
 const canvasCTX = canvas.getContext('2d');
 
 const userSettings = {
