@@ -36,7 +36,8 @@ From your terminal run
 
 Go to the root of the project and run
 
-npm install
+
+      npm install
 
 npm will install all project dependencies. These dependencies are defined in package.json. A new node_modules folder will be created and all dependencies needed for this project will be installed.
 
