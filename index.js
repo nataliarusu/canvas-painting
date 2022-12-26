@@ -62,6 +62,8 @@ const drawHandler = (e) => {
   if (!userSettings.isDrawing) return;
   if(userSettings.multicolour){    
     canvasCTX.strokeStyle=`hsl(${userSettings.hue} 100% 50%)`;//colourful
+  } else{
+    canvasCTX.strokeStyle=colourInput.value;
   }
   //we will see the effect only when we call ctx.stroke()
   canvasCTX.beginPath();
@@ -83,7 +85,6 @@ lineShapeInput.addEventListener('change', lineShapeHandler);
 downloadEl.addEventListener('click', downloadHanler);
 checkboxInput.addEventListener('change', ()=>{
     userSettings.multicolour = checkboxInput.checked;
-
 })
 canvas.addEventListener('mousedown', (e) => {
   userSettings.isDrawing = true;
