@@ -1,70 +1,102 @@
-const colourInput = document.querySelector('#color-input');
+const colourInput = document.querySelector('#colour-input');
 const lineWidthInput = document.querySelector('#line-width');
+const lineShapeInput = document.querySelector('#line-shape');
+const checkboxInput = document.querySelector('#checkbox');
 const canvas = document.querySelector('#draw');
 const downloadEl = document.querySelector('.download');
+const DEFAULT_LINE_COLOUR = '#d73c3c';
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-
+canvas.width = window.innerWidth - 10;
+canvas.height = window.innerHeight - 88;
 const canvasCTX = canvas.getContext('2d');
-/**initialize first time*/
-//give user to choose
-canvasCTX.strokeStyle = '#d73c3c';
-canvasCTX.lineWidth = 10;
-canvasCTX.lineJoin = 'round';
-canvasCTX.lineCap = 'round';
-//give user to choose
 
-const userMouse={
-    isDrawing: false,
-    lastX: 0,
-    lastY: 0,
-    hue:0
-}
+const defaultCanvasSettings = () => {
+  canvasCTX.strokeStyle = DEFAULT_LINE_COLOUR;
+  canvasCTX.lineWidth = Number(lineWidthInput.value);
+  canvasCTX.lineJoin = 'round';
+  canvasCTX.lineCap = 'round';
+};
 
+const userSettings = {
+  isDrawing: false,
+  lastX: 0,
+  lastY: 0,
+  multicolour: false,
+  currentH: hexToHSL(DEFAULT_LINE_COLOUR),
+  hue: 0,
+};
 
-const downloadHanler = ()=>{
-    downloadEl.download = 'canvas.png';
-    downloadEl.href = canvas.toDataURL();   
+const downloadHanler = () => {
+  downloadEl.download = 'canvas.png';
+  downloadEl.href = canvas.toDataURL();
+};
+
+const changeColorHanler = (e) => {
+  canvasCTX.strokeStyle = e.target.value;
+  userSettings.currentH = hexToHSL(e.target.value);
+  userSettings.hue= userSettings.currentH;
+};
+const changeLineWidthHanler = (e) => {
+  canvasCTX.lineWidth = Number(e.target.value);
+};
+const lineShapeHandler = (e) => {
+  switch (e.target.value) {
+    case 'round':
+      canvasCTX.lineJoin = 'round';
+      canvasCTX.lineCap = 'round';
+      break;
+    case 'bevel':
+      canvasCTX.lineJoin = 'bevel';
+      canvasCTX.lineCap = 'square';
+      break;
+    case 'miter': //as default goes miter and butt
+      canvasCTX.lineJoin = 'miter';
+      canvasCTX.lineCap = 'butt';
+      break;
   }
 
-const changeColorHanler = (e)=>{
-    canvasCTX.strokeStyle = e.target.value;
-}
-const changeLineWidthHanler=(e)=>{
-    canvasCTX.lineWidth = Number(e.target.value);
-}
-
-const drawHandler = (e)=>{
-    if(!userMouse.isDrawing) return;
-    //canvasCTX.strokeStyle=`hsl(${userMouse.hue} 100% 50%)`;//colourful
-    //we will see the effect only when we call ctx.stroke()
-    canvasCTX.beginPath();
-    canvasCTX.moveTo(userMouse.lastX, userMouse.lastY);//start
-    canvasCTX.lineTo(e.offsetX, e.offsetY);//stop
-    canvasCTX.stroke();
-    userMouse.lastX = e.offsetX;
-    userMouse.lastY = e.offsetY;
-    /*userMouse.hue++;
-    if(userMouse.hue>=360){
-        userMouse.hue=0;
-    }*/
-}
-
+  canvasCTX.lineJoin = e.target.value;
+  canvasCTX.lineCap = e.target.value;
+};
+const drawHandler = (e) => {
+  if (!userSettings.isDrawing) return;
+  if(userSettings.multicolour){    
+    canvasCTX.strokeStyle=`hsl(${userSettings.hue} 100% 50%)`;//colourful
+  }
+  //we will see the effect only when we call ctx.stroke()
+  canvasCTX.beginPath();
+  canvasCTX.moveTo(userSettings.lastX, userSettings.lastY); //start
+  canvasCTX.lineTo(e.offsetX, e.offsetY); //stop
+  canvasCTX.stroke();
+  userSettings.lastX = e.offsetX;
+  userSettings.lastY = e.offsetY;
+  userSettings.hue++;
+    if(userSettings.hue>=360){
+        userSettings.hue=0;
+    }
+};
+defaultCanvasSettings();
 
 colourInput.addEventListener('input', changeColorHanler);
 lineWidthInput.addEventListener('input', changeLineWidthHanler);
-canvas.addEventListener('mousedown', (e)=>{
-    userMouse.isDrawing = true;
-    userMouse.lastX = e.offsetX;
-    userMouse.lastY = e.offsetY;
-} );
-canvas.addEventListener('mousemove', drawHandler);//MouseEvent {isTrusted: true, screenX: 613, screenY: 804, clientX: 613, clientY: 701, …}
-
-canvas.addEventListener('mouseup', ()=> userMouse.isDrawing=false);
-canvas.addEventListener('mouseleave', ()=> userMouse.isDrawing=false);
-
-
-
-
+lineShapeInput.addEventListener('change', lineShapeHandler);
 downloadEl.addEventListener('click', downloadHanler);
+checkboxInput.addEventListener('change', ()=>{
+    userSettings.multicolour = checkboxInput.checked;
+
+})
+canvas.addEventListener('mousedown', (e) => {
+  userSettings.isDrawing = true;
+  userSettings.lastX = e.offsetX;
+  userSettings.lastY = e.offsetY;
+});
+canvas.addEventListener('mousemove', drawHandler); //MouseEvent {isTrusted: true, screenX: 613, screenY: 804, clientX: 613, clientY: 701, …}
+
+canvas.addEventListener('mouseup', () => {
+    userSettings.isDrawing = false;    
+    userSettings.hue = userSettings.currentH;
+});
+canvas.addEventListener('mouseleave', () => {
+    userSettings.isDrawing = false;    
+    userSettings.hue = userSettings.currentH;
+});

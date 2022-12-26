@@ -1,37 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="./src/hexTOhsl.js" defer></script>
     <script src="./index.js" defer></script>
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./style.css" />
     <title>Document</title>
-</head>
-<body>
+  </head>
+  <body>
     <div class="actions">
-        <input type="color" id="color-input" value="#d73c3c"/>
-        <div class="actions-line">
-            <label for="line-width">Line width</label>
-            <input type="number" id="line-width" min="1" value="10"/>
-        </div>
-        <div class="actions-lineshape">
-            <select name="line-shape" id="line-shape">
-                <option value="round" selected>round</option>
-                <option value="bevel">bevel</option>
-                <option value="miter">miter</option>
-
-            </select>
-
-        </div>
-        <div class="actions-download">
-            <a href="" class="download"><img src="./images/download.png"></a>
-        </div>
-        
+      <div class="actions-linecolour">
+        <label for="colour-input">Line colour</label>
+        <input type="color" id="colour-input" value="#d73c3c" />
+      </div>
+      <div class="actions-linewidth">
+        <label for="line-width">Line width</label>
+        <input type="number" id="line-width" min="1" value="100" />
+      </div>
+      <div class="actions-lineshape">
+        <label for="line-shape">Line shape</label>
+        <select name="line-shape" id="line-shape">
+          <option value="round" selected>round</option>
+          <option value="bevel">bevel</option>
+          <option value="miter">miter</option>
+        </select>
+      </div>
+      <div class="actions-download">
+        <a href="" class="download"><img src="./images/download.png" /></a>
+      </div>
+      <div class="actions-multicolour">
+        <input type="checkbox" id="checkbox" />
+        <label for="checkbox">Multicolour line</label>
+      </div>
     </div>
-    
+
     <canvas id="draw" width="300" height="300"></canvas>
-    
-    
-</body>
+  </body>
 </html>
